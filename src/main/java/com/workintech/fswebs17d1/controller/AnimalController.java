@@ -1,6 +1,7 @@
 package com.workintech.fswebs17d1.controller;
 
 import com.workintech.fswebs17d1.entity.Animal;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,14 @@ public class AnimalController {
 
     @Value("${project.developer.fullname}")
     private String developerName;
+
+
+    @PostConstruct
+    public void init() {
+        animals.put(1, new Animal(1, "Lion"));
+        animals.put(2, new Animal(2, "Elephant"));
+        animals.put(3, new Animal(3, "Tiger"));
+    }
 
     @GetMapping
     public List<Animal> getAllAnimals() {
