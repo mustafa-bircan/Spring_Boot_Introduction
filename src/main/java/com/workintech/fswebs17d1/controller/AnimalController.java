@@ -1,6 +1,7 @@
 package com.workintech.fswebs17d1.controller;
 
 import com.workintech.fswebs17d1.entity.Animal;
+import com.workintech.fswebs17d1.exceptions.AnimalNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -45,11 +46,19 @@ public class AnimalController {
         animals.put(animal.getId(), animal);
     }
 
+
     @PutMapping("/{id}")
-    public void updateAnimal(@PathVariable Integer id, @RequestBody Animal animal) {
-        if (animals.containsKey(id)) {
-            animals.put(id, animal);
+    public Animal updateAnimal(@PathVariable Integer id, @RequestBody Animal animal) {
+        if (!animals.containsKey(id)) {
+            throw new AnimalNotFoundException("Animal with ID " + id + " not found.");
         }
+
+        if (!animal.getId().equals(id)) {
+            throw new IllegalArgumentException("ID in path and body must match.");
+        }
+
+        animals.put(id, animal);
+        return animal;
     }
 
 
