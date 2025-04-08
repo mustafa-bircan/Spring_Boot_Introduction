@@ -15,7 +15,7 @@ import java.util.Map;
 @RequestMapping("/workintech/animal")
 public class AnimalController {
 
-    private Map<Integer, Animal> animals = new HashMap<>();
+    private Map<Integer, Animal> animals;
 
     @Value("${course.name}")
     private String courseName;
@@ -24,12 +24,16 @@ public class AnimalController {
     private String developerName;
 
 
+
     @PostConstruct
     public void init() {
+        animals = new HashMap<>();
         animals.put(1, new Animal(1, "Lion"));
         animals.put(2, new Animal(2, "Elephant"));
         animals.put(3, new Animal(3, "Tiger"));
     }
+
+
 
     @GetMapping
     public List<Animal> getAllAnimals() {
